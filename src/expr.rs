@@ -80,6 +80,30 @@ impl Expr {
             _ => None
         }
     }
+
+    /// Return any symbols in the expression.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use symbolic_math::expr::Expr;
+    /// use symbolic_math::symbol::Symbol;
+    ///
+    /// let x = Expr::new_var("y") + (Expr::new_var("x") * Expr::new_val(42.));
+    /// assert_eq!(x.symbols(), vec![&Symbol::new("y"), &Symbol::new("x")]);
+    /// ````
+    pub fn symbols(&self) -> Vec<&Symbol> {
+        match self {
+            Expr::Symbol(s) => vec![s],
+            Expr::Add(a, b) => a.symbols().into_iter().chain(b.symbols().into_iter()).collect(),
+            Expr::Sub(a, b) => a.symbols().into_iter().chain(b.symbols().into_iter()).collect(),
+            Expr::Mul(a, b) => a.symbols().into_iter().chain(b.symbols().into_iter()).collect(),
+            Expr::Div(a, b) => a.symbols().into_iter().chain(b.symbols().into_iter()).collect(),
+            Expr::Const(_) => Vec::new(),
+            Expr::Pow(a, b) => a.symbols().into_iter().chain(b.symbols().into_iter()).collect(),
+            Expr::Neg(e) => e.symbols(),
+        }
+    }
 }
 
 impl Display for Expr {
