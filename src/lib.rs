@@ -41,8 +41,8 @@
 //! let y = Expr::new_var("y");
 //! let z = Expr::new_var("z");
 //! let res = (x.clone() + x.clone() + y.clone() * y.clone()).pow(z);
-//! println!("{}", res);  // prints: "(2x + y^2)^z"
-//! println!("{}", res.simplify());  // prints: "(2x + y^2)^z"
+//! println!("{}", res);  // prints: "(((x + x) + (y * y)) ^ z)"
+//! println!("{}", res.simplify());  // prints: "((2x + (y ^ 2)) ^ z)"
 //!
 //! let mut vars: HashMap<Symbol, f64> = HashMap::new();
 //! vars.insert(Symbol::new("x"), 4.0);
@@ -55,4 +55,5 @@
 
 pub mod symbol;
 pub mod expr;
+
 
